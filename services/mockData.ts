@@ -14,21 +14,72 @@ export const DISTRICTS: District[] = [
       'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Shangrila_Resort_Skardu.jpg/1024px-Shangrila_Resort_Skardu.jpg',
       'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Satpara_Lake_Skardu.jpg/1024px-Satpara_Lake_Skardu.jpg',
       'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Deosai_Plains_Skardu.jpg/1024px-Deosai_Plains_Skardu.jpg'
-    ]
+    ],
+    hardcodedDetails: {
+      overview: "Skardu is the embodiment of mountain majesty, serving as the gateway to the Karakoram peaks including K2. It is a land of high-altitude deserts, turquoise lakes, and ancient forts.",
+      naturalPlaces: [
+        { name: "Shangrilla Resort (Lower Kachura Lake)", description: "Famous as 'Heaven on Earth', this resort surrounds the heart-shaped Lower Kachura Lake with its iconic red-roofed cottages." },
+        { name: "Upper Kachura Lake", description: "A crystal clear lake offering boating and trout fishing, surrounded by wild apricot orchards and massive rocks." },
+        { name: "Lower Kachura Lake", description: "Also known as Shangrila Lake, famous for its mesmerizing reflections and serene atmosphere." },
+        { name: "Manthokha Waterfall", description: "A mystic waterfall located in Kharmang valley, famous for its height and the lush green camping spots nearby." },
+        { name: "Deosai National Park", description: "The second-highest plateau in the world, famous for its brown bears, wildflowers, and vast green plains." },
+        { name: "Cold Desert of Skardu (Katpana)", description: "The world's highest cold desert, famous for its unique sand dunes that are often covered in snow during winter." },
+        { name: "Satpara Lake", description: "A major freshwater lake supplying water to Skardu, famous for its turquoise blue water and rowing boats." },
+        { name: "Basho Valley", description: "A pine-forested valley famous for its eco-friendly environment, streams, and camping sites." },
+        { name: "Soq Valley", description: "A picturesque valley upstream from Kachura, famous for its river views and family picnic spots." },
+        { name: "Mantokha Valley", description: "Famous for the massive waterfall and its peaceful, traditional rural setting." },
+        { name: "Sheosar Lake", description: "Located in Deosai Plains, famous for its heart shape and the reflection of the Nanga Parbat peak." },
+        { name: "Bilmik Valley", description: "A stunning, lesser-known valley offering breathtaking views of the Indus River and surrounding peaks." },
+        { name: "Marsur Rock", description: "Known as the 'Trolltunga of Pakistan', this rock formation in Hussainabad offers a thrilling vantage point." }
+      ],
+      historicalPlaces: [
+        { name: "Shigar Fort", description: "A 400-year-old fort turned luxury hotel (FonG), famous for its Balti architecture and museum." },
+        { name: "Khaplu Palace", description: "A royal palace in Ghanche district, famous for its Tibetan-style architecture and heritage stays." },
+        { name: "Kharpocho Fort", description: "An ancient fort overlooking Skardu city, famous for panoramic views of the Indus River and valley." },
+        { name: "Organic Village Skardu", description: "A model village famous for organic farming and maintaining the traditional Balti lifestyle." },
+        { name: "Sadpara Village", description: "A historic village near Satpara Lake, famous for its traditional stone houses and culture." },
+        { name: "Gamba Skardu Village", description: "Famous for its ancient history and traditional community life in the heart of Skardu." },
+        { name: "Manthal Buddha Rock", description: "A massive granite rock featuring large carvings of Buddha dating back to the 8th century." }
+      ],
+      hotels: [
+        { name: "Shangrila Resort", description: "The iconic resort on the lake." },
+        { name: "Hotel One Skardu", description: "Modern comfort near the airport." }
+      ]
+    }
   },
   {
     id: 'd2',
     name: 'Hunza',
-    description: 'Known for its longevity, culture, and the majestic Rakaposhi peak.',
+    description: 'Home to the turquoise Attabad Lake, historic Altit & Baltit Forts, adventurous Hussaini Suspension Bridge, panoramic views from Duikar (Eagles Nest) & Passu Cones, and the high-altitude Khunjerab Pass (China Border), plus serene spots like Borith Lake.',
     image: 'https://lh3.googleusercontent.com/d/1xzYmJL9tK031Xs5q5kZ8uennnPFPAaSq', // Updated Hunza Background
-    attractions: ['Karimabad', 'Attabad Lake', 'Baltit Fort'],
+    attractions: ['Attabad Lake', 'Altit & Baltit Forts', 'Hussaini Bridge', 'Passu Cones', 'Khunjerab Pass', 'Borith Lake'],
     coordinates: { lat: 36.3167, lng: 74.6500 },
     gallery: [
        'https://lh3.googleusercontent.com/d/1ELvCe1hqaNrpVjrI5B0k0YH5cTsmWz8g', // Added extra Hunza picture
        'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Passu_Cones_Hunza.jpg/1024px-Passu_Cones_Hunza.jpg',
        'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Baltit_Fort_Karimabad_Hunza.jpg/1024px-Baltit_Fort_Karimabad_Hunza.jpg',
        'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Attabad_Lake_Hunza.jpg/1024px-Attabad_Lake_Hunza.jpg'
-    ]
+    ],
+    hardcodedDetails: {
+      overview: "Hunza is a breathtaking mountainous valley in Gilgit-Baltistan, renowned for its longevity, rich culture, and stunning landscapes. It features the turquoise Attabad Lake, historic Altit & Baltit Forts, and the thrilling Hussaini Suspension Bridge. Visitors can soak in panoramic views from Duikar (Eagles Nest) and gaze at the majestic Passu Cones. The district also connects to China via the high-altitude Khunjerab Pass and offers tranquility at Borith Lake.",
+      naturalPlaces: [
+        { name: "Attabad Lake", description: "A mesmerizing turquoise lake created by a landslide in 2010, offering boating, jet skiing, and stunning views." },
+        { name: "Passu Cones", description: "Also known as the Cathedral Ridge, these jagged, sun-kissed peaks are a photographer's dream." },
+        { name: "Khunjerab Pass", description: "The world's highest paved international border crossing at 4,693m, connecting Pakistan and China." },
+        { name: "Borith Lake", description: "A saline lake situated at high altitude, a peaceful sanctuary for migratory birds and nature lovers." },
+        { name: "Duikar (Eagles Nest)", description: "The highest viewpoint in Hunza, offering unparalleled sunrise and sunset views over the valley and Rakaposhi." }
+      ],
+      historicalPlaces: [
+        { name: "Baltit Fort", description: "A 700-year-old fort in Karimabad, a UNESCO World Heritage Tentative site showcasing Tibetan-influenced architecture." },
+        { name: "Altit Fort", description: "The oldest monument in Gilgit-Baltistan, standing for over 1100 years on a sheer rock cliff." },
+        { name: "Hussaini Suspension Bridge", description: "Known as one of the world's most dangerous bridges, this rope bridge offers an adrenaline-pumping crossing over the Hunza River." }
+      ],
+      hotels: [
+        { name: "Luxus Hunza", description: "Luxury resort right on the banks of Attabad Lake with floor-to-ceiling windows." },
+        { name: "Serena Altit Fort Residence", description: "Heritage accommodation offering comfort amidst historic orchards." },
+        { name: "Eagle's Nest Hotel", description: "Perched high in Duikar, providing the best vantage point for Golden Peak and Rakaposhi." }
+      ]
+    }
   },
   {
     id: 'd3',
@@ -119,6 +170,18 @@ export const DISTRICTS: District[] = [
         'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Fairy_Meadows_Diamer.jpg/1024px-Fairy_Meadows_Diamer.jpg',
         'https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Chilas_Rock_Carvings.jpg/1024px-Chilas_Rock_Carvings.jpg'
     ]
+  },
+  {
+    id: 'd10',
+    name: 'Shigar',
+    description: 'The gateway to the mighty K2, home to the Sarfaranga Cold Desert and the 17th-century Shigar Fort.',
+    image: 'https://lh3.googleusercontent.com/d/1M-w9v3_O_5X7Y2Z0o7J4k8k0h0k5o5t', // Updated Shigar Background to match theme
+    attractions: ['Shigar Fort', 'Sarfaranga Cold Desert', 'Blind Lake'],
+    coordinates: { lat: 35.4250, lng: 75.7397 },
+    gallery: [
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Cold_Desert_Skardu.jpg/1024px-Cold_Desert_Skardu.jpg',
+        'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Blind_Lake_Shigar.jpg/1024px-Blind_Lake_Shigar.jpg'
+    ]
   }
 ];
 
@@ -128,10 +191,11 @@ export const LISTINGS: Listing[] = [
     name: 'Shangrila Resort',
     type: 'HOTEL',
     districtId: 'd1',
-    description: 'Heaven on Earth. Luxury stay by the lake.',
+    description: 'Known as "Heaven on Earth", this iconic resort is nestled around the heart-shaped Lower Kachura Lake. It offers a unique blend of natural beauty and luxury.',
     priceLevel: 5,
     rating: 4.8,
     contact: '+92-5815-123456',
+    website: 'https://shangrilaresorts.com.pk/',
     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Shangrila_Resort_Skardu.jpg/800px-Shangrila_Resort_Skardu.jpg',
     features: ['Lake View', 'Restaurant', 'Boating'],
     coordinates: { lat: 35.3526, lng: 75.5088 },
@@ -290,6 +354,23 @@ export const LISTINGS: Listing[] = [
     packages: [
       { id: 'kp1', name: 'Manthoka & Mehdiabad Day Trip', price: 80, duration: '1 Day', features: ['Transport', 'Lunch', 'Guide'] }
     ]
+  },
+  {
+    id: 'h_shigar_1',
+    name: 'Serena Shigar Fort',
+    type: 'HOTEL',
+    districtId: 'd10',
+    description: 'Stay in a 400-year-old fort, a true heritage experience.',
+    priceLevel: 5,
+    rating: 4.9,
+    contact: '+92-5815-123789',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Shigar_Fort_Skardu.jpg/800px-Shigar_Fort_Skardu.jpg',
+    features: ['Heritage', 'Museum', 'Fine Dining'],
+    coordinates: { lat: 35.4240, lng: 75.7410 },
+    rooms: [
+      { id: 'sr_shigar_1', name: 'Royal Chamber', price: 350, capacity: 2, features: ['King Bed', 'Historical Decor'] },
+      { id: 'sr_shigar_2', name: 'Garden Suite', price: 250, capacity: 2, features: ['Garden View', 'Breakfast'] }
+    ]
   }
 ];
 
@@ -308,13 +389,14 @@ export interface RoadStatus {
 
 export const ROAD_STATUS: RoadStatus[] = [
   { name: 'Karakoram Highway (KKH)', status: 'OPEN', color: 'green', affects: ['d2', 'd3', 'd6', 'd9'] }, 
-  { name: 'Skardu Road (S-1)', status: 'OPEN', color: 'green', affects: ['d1', 'd7', 'd8'] }, 
+  { name: 'Skardu Road (S-1)', status: 'OPEN', color: 'green', affects: ['d1', 'd7', 'd8', 'd10'] }, 
   { name: 'Babusar Pass', status: 'CLOSED', color: 'red', affects: ['d3', 'd4', 'd9'] }, 
   { name: 'Deosai Road', status: 'CAUTION', color: 'yellow', affects: ['d1', 'd4'] }, 
   { name: 'Ghizer-Chitral Road', status: 'OPEN', color: 'green', affects: ['d5'] }, 
-  { name: 'Astore Valley Road', status: 'CAUTION', color: 'yellow', affects: ['d4'] },
+  { name: 'Astore Valley Road', status: 'CAUTION', color: 'yellow', affects: ['d4'] }, 
   { name: 'Khaplu Valley Road', status: 'OPEN', color: 'green', affects: ['d7'] }, 
-  { name: 'Kharmang Road', status: 'OPEN', color: 'green', affects: ['d8'] },
+  { name: 'Kharmang Road', status: 'OPEN', color: 'green', affects: ['d8'] }, 
+  { name: 'Shigar Road', status: 'OPEN', color: 'green', affects: ['d10'] }, 
 ];
 
 export const WEATHER_DATA = [
@@ -327,6 +409,7 @@ export const WEATHER_DATA = [
   { district: 'Khaplu', temp: '8°C', condition: 'Snow Showers' },
   { district: 'Kharmang', temp: '10°C', condition: 'Overcast' },
   { district: 'Diamer', temp: '22°C', condition: 'Hot' },
+  { district: 'Shigar', temp: '11°C', condition: 'Windy' },
 ];
 
 export const EMERGENCY_CONTACTS = [

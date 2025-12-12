@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { WEATHER_DATA, ROAD_STATUS, EMERGENCY_CONTACTS } from '../services/mockData';
 import { getLiveTravelUpdates } from '../services/geminiService';
 import { LiveStatusResponse } from '../types';
-import { Cloud, Thermometer, Phone, ShieldCheck, AlertCircle, RefreshCw, ExternalLink, Globe } from 'lucide-react';
+import { Cloud, Thermometer, Phone, ShieldCheck, AlertCircle, RefreshCw, ExternalLink, Globe, Wifi } from 'lucide-react';
 
 export const LiveDashboard: React.FC = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [liveData, setLiveData] = useState<LiveStatusResponse | null>(null);
   const [sources, setSources] = useState<string[]>([]);
   const [lastSync, setLastSync] = useState<string | null>(null);
@@ -20,6 +20,10 @@ export const LiveDashboard: React.FC = () => {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    handleSync();
+  }, []);
 
   // Helper to determine status color
   const getStatusColor = (status: string) => {
@@ -36,9 +40,20 @@ export const LiveDashboard: React.FC = () => {
           <div className="flex items-center gap-3">
             <ShieldCheck className="text-brand-primary h-8 w-8" />
             <div>
-              <h2 className="text-3xl font-serif font-bold text-white">Live Situation Room</h2>
-              <p className="text-xs text-gray-500 uppercase tracking-widest mt-1">
-                {liveData ? `Verified Online • Last Updated: ${liveData.lastUpdated}` : 'Standard Database • Static Records'}
+              <h2 className="text-3xl font-serif font-bold text-white flex items-center gap-3">
+                Live Situation Room
+                {loading && <span className="text-xs bg-brand-primary/20 text-brand-primary px-2 py-1 rounded-full animate-pulse">CONNECTING...</span>}
+              </h2>
+              <p className="text-xs text-gray-500 uppercase tracking-widest mt-1 flex items-center gap-2">
+                {liveData ? (
+                  <>
+                    <Wifi size={12} className="text-green-500" /> Verified Live • Last Updated: {liveData.lastUpdated}
+                  </>
+                ) : (
+                  <>
+                    <Wifi size={12} className="text-gray-500" /> Standard Database • Static Records
+                  </>
+                )}
               </p>
             </div>
           </div>
@@ -86,31 +101,36 @@ export const LiveDashboard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           
           {/* Weather Widget */}
-          <div className="bg-brand-dark/50 p-6 rounded-lg border border-gray-700 h-96 overflow-y-auto custom-scrollbar">
+          <div className="bg-brand-dark/50 p-6 rounded-lg border border-gray-700 h-96 overflow-y-auto custom-scrollbar relative">
             <h3 className="text-brand-primary font-bold uppercase tracking-widest text-sm mb-4 flex items-center gap-2 sticky top-0 bg-brand-dark/95 py-2 z-10 border-b border-gray-800">
               <Cloud size={16} /> Regional Weather
             </h3>
-            <div className="space-y-3">
+            <div className={`space-y-3 ${loading ? 'opacity-50' : ''}`}>
               {(liveData ? liveData.districts : WEATHER_DATA).map((w: any, i: number) => (
                 <div key={i} className="flex justify-between items-center text-sm border-b border-gray-800 pb-2 last:border-0 group hover:bg-white/5 p-2 rounded transition">
                   <span className="text-gray-300 font-medium">{liveData ? w.name : w.district}</span>
                   <div className="flex items-center gap-3">
                     <span className="text-gray-400 text-xs hidden sm:block">{liveData ? w.weather.condition : w.condition}</span>
-                    <span className="text-white font-bold bg-brand-secondary px-2 py-0.5 rounded border border-gray-700">
+                    <span className="text-white font-bold bg-brand-secondary px-2 py-0.5 rounded border border-gray-700 min-w-[3rem] text-center">
                       {liveData ? w.weather.temp : w.temp}
                     </span>
                   </div>
                 </div>
               ))}
             </div>
+             {loading && !liveData && (
+                <div className="absolute inset-0 flex items-center justify-center bg-brand-dark/50 backdrop-blur-sm z-20">
+                    <RefreshCw className="animate-spin text-brand-primary" />
+                </div>
+            )}
           </div>
 
           {/* Road Status Widget */}
-          <div className="bg-brand-dark/50 p-6 rounded-lg border border-gray-700 h-96 overflow-y-auto custom-scrollbar">
+          <div className="bg-brand-dark/50 p-6 rounded-lg border border-gray-700 h-96 overflow-y-auto custom-scrollbar relative">
             <h3 className="text-brand-primary font-bold uppercase tracking-widest text-sm mb-4 flex items-center gap-2 sticky top-0 bg-brand-dark/95 py-2 z-10 border-b border-gray-800">
               <AlertCircle size={16} /> Road Networks
             </h3>
-            <div className="space-y-3">
+            <div className={`space-y-3 ${loading ? 'opacity-50' : ''}`}>
               {liveData ? (
                 liveData.districts.map((d: any, i: number) => (
                   <div key={i} className="flex flex-col text-sm border-b border-gray-800 pb-3 last:border-0 group hover:bg-white/5 p-2 rounded transition">
@@ -138,6 +158,11 @@ export const LiveDashboard: React.FC = () => {
                 ))
               )}
             </div>
+             {loading && !liveData && (
+                <div className="absolute inset-0 flex items-center justify-center bg-brand-dark/50 backdrop-blur-sm z-20">
+                    <RefreshCw className="animate-spin text-brand-primary" />
+                </div>
+            )}
           </div>
 
           {/* Emergency Contacts Widget */}

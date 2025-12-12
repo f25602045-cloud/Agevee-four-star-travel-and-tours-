@@ -1,44 +1,9 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Map as MapIcon, Users, Building, Compass, UserCheck, Shield, Star, Award, ChevronDown } from 'lucide-react';
-import { DISTRICTS } from '../services/mockData';
 import { LiveDashboard } from '../components/LiveDashboard';
 import { MountainDivider } from '../components/MountainDivider';
-
-// 3D Tilt Card Component
-const TiltCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = "" }) => {
-    const [transform, setTransform] = useState("perspective(1000px) rotateX(0deg) rotateY(0deg)");
-    
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-      const card = e.currentTarget;
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-      
-      const rotateX = ((y - centerY) / centerY) * -5; // Tilt intensity
-      const rotateY = ((x - centerX) / centerX) * 5;
-  
-      setTransform(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`);
-    };
-  
-    const handleMouseLeave = () => {
-      setTransform("perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)");
-    };
-  
-    return (
-      <div 
-        className={`transition-transform duration-200 ease-out preserve-3d ${className}`}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{ transform }}
-      >
-        {children}
-      </div>
-    );
-  };
+import { DISTRICTS } from '../services/mockData';
 
 // Animated Counter Component
 const CountUp: React.FC<{ end: number; duration?: number; suffix?: string }> = ({ end, duration = 2000, suffix = '' }) => {
@@ -167,16 +132,13 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Live Situation Dashboard */}
-      <div className="relative z-20 -mt-1 pt-12 bg-brand-secondary pb-12">
+      {/* Live Situation Dashboard - Moved Back Here */}
+      <section className="bg-brand-secondary border-b border-white/5 relative z-20">
         <LiveDashboard />
-      </div>
+      </section>
 
       {/* Trust & Credibility Section */}
       <section className="py-20 bg-brand-dark border-b border-white/5 relative">
-         <div className="absolute top-0 w-full transform rotate-180 -mt-1">
-             <MountainDivider className="fill-brand-secondary" />
-         </div>
          <div className="max-w-7xl mx-auto px-4 text-center mt-12">
             <h2 className="text-brand-primary font-bold uppercase tracking-widest text-xs mb-8">Why Choose Agevee</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -222,50 +184,43 @@ export const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Featured Districts - 3D Tilt Cards */}
-      <section className="py-24 bg-brand-dark relative">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-white/10 pb-8">
-            <div className="max-w-2xl">
-              <h4 className="text-brand-primary font-bold tracking-widest uppercase mb-2 text-xs">Destinations</h4>
-              <h2 className="text-4xl md:text-5xl font-serif font-bold text-white">Curated Regions</h2>
-            </div>
-            <Link to="/explore" className="group flex items-center gap-2 text-white mt-6 md:mt-0 hover:text-brand-primary transition-colors">
-              <span className="uppercase tracking-widest text-xs font-bold">Explore All</span>
-              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
+      {/* Curated Regions (Updated to show ALL districts) */}
+      <section className="py-24 bg-brand-dark relative z-20">
+        <div className="max-w-7xl mx-auto px-4 text-center mb-16">
+          <div className="inline-block mb-4">
+             <Star className="w-8 h-8 text-brand-primary mx-auto mb-2" />
+             <h2 className="text-4xl md:text-5xl font-serif font-bold text-white tracking-tight">Curated Regions</h2>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {DISTRICTS.slice(0, 3).map((district, idx) => (
-              <TiltCard key={district.id} className="h-[550px] group relative rounded-sm">
-                <Link to={`/explore?id=${district.id}`} className="block w-full h-full relative overflow-hidden rounded-sm shadow-2xl">
-                  <img 
-                    src={district.image} 
-                    alt={district.name} 
-                    className="w-full h-full object-cover transition duration-[1.5s] group-hover:scale-110 filter brightness-75 group-hover:brightness-100"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-90 transition-opacity"></div>
-                  
-                  {/* Floating Number */}
-                  <div className="absolute top-6 right-6 text-6xl font-serif font-bold text-white/5 group-hover:text-white/20 transition-colors transform translate-z-20">
-                    0{idx + 1}
-                  </div>
+          <p className="text-gray-400 max-w-2xl mx-auto">
+            Explore the most breathtaking destinations handpicked for their natural beauty, historical significance, and premium hospitality.
+          </p>
+        </div>
 
-                  <div className="absolute bottom-0 left-0 p-8 w-full transform translate-z-10">
-                    <div className="h-0.5 w-0 bg-brand-primary mb-4 group-hover:w-16 transition-all duration-500"></div>
-                    <h3 className="text-4xl font-serif font-bold text-white mb-3 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">{district.name}</h3>
-                    <p className="text-gray-300 line-clamp-2 text-sm leading-relaxed mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100 font-light border-l border-white/20 pl-4">
-                      {district.description}
-                    </p>
-                    <span className="text-brand-primary text-xs uppercase tracking-widest font-bold flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200 translate-y-4 group-hover:translate-y-0">
-                      Discover Region <ArrowRight size={12} />
-                    </span>
-                  </div>
-                </Link>
-              </TiltCard>
-            ))}
-          </div>
+        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
+           {DISTRICTS.map((district, i) => (
+             <Link key={district.id} to={`/explore?id=${district.id}`} className="group relative h-[500px] w-full perspective-1000 block">
+                <div className="relative w-full h-full transition-all duration-700 preserve-3d group-hover:rotate-y-12 shadow-2xl border border-white/5 rounded-sm overflow-hidden">
+                   <div className="absolute inset-0">
+                      <img src={district.image} alt={district.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-brand-dark via-transparent to-transparent opacity-90"></div>
+                   </div>
+                   
+                   <div className="absolute bottom-0 left-0 p-8 w-full translate-z-20">
+                      <h3 className="text-3xl font-serif font-bold text-white mb-2">{district.name}</h3>
+                      <p className="text-gray-300 text-sm line-clamp-2 mb-6 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">{district.description}</p>
+                      <div className="flex items-center gap-2 text-brand-primary font-bold uppercase tracking-widest text-xs">
+                         Explore <ArrowRight size={16} />
+                      </div>
+                   </div>
+                </div>
+             </Link>
+           ))}
+        </div>
+        
+        <div className="text-center mt-16">
+            <Link to="/explore" className="inline-flex items-center gap-2 border border-brand-primary text-brand-primary px-8 py-3 rounded-sm hover:bg-brand-primary hover:text-brand-dark transition font-bold uppercase tracking-widest text-sm">
+               View All Destinations
+            </Link>
         </div>
       </section>
 

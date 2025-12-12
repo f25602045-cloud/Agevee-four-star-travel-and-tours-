@@ -1,10 +1,24 @@
 
+
 export enum UserType {
   TOURIST = 'TOURIST',
   AGENCY = 'AGENCY',
   HOTEL = 'HOTEL',
   GUIDE = 'GUIDE',
   ADMIN = 'ADMIN',
+}
+
+export interface PlaceInfo {
+  name: string;
+  description: string;
+  image?: string;
+}
+
+export interface DistrictDetails {
+  overview: string;
+  naturalPlaces: PlaceInfo[];
+  historicalPlaces: PlaceInfo[];
+  hotels: PlaceInfo[];
 }
 
 export interface District {
@@ -15,6 +29,7 @@ export interface District {
   attractions: string[];
   coordinates: { lat: number; lng: number };
   gallery?: string[];
+  hardcodedDetails?: DistrictDetails;
 }
 
 export interface RoomOption {
@@ -42,6 +57,7 @@ export interface Listing {
   priceLevel: 1 | 2 | 3 | 4 | 5; // $ to $$$$$
   rating: number;
   contact: string;
+  website?: string; // Optional website link
   image: string;
   features: string[];
   rooms?: RoomOption[];
@@ -76,19 +92,6 @@ export interface RegistrationData {
   password: string;
   type: UserType;
   details?: string;
-}
-
-export interface PlaceInfo {
-  name: string;
-  description: string;
-  image?: string;
-}
-
-export interface DistrictDetails {
-  overview: string;
-  naturalPlaces: PlaceInfo[];
-  historicalPlaces: PlaceInfo[];
-  hotels: PlaceInfo[];
 }
 
 export interface DistrictLiveStatus {

@@ -129,30 +129,26 @@ export const getLiveTravelUpdates = async (): Promise<{ data: LiveStatusResponse
   }
 
   const prompt = `
-    Find the latest real-time verified online travel information for Gilgit-Baltistan districts:
-    Skardu, Hunza, Gilgit, Astore, Ghizer, Ghanche, Kharmang, Nagar, and Diamer.
-
-    Look for:
-    1. Current weather conditions.
-    2. Road status (Open/Closed/Caution) for major roads like KKH, Babusar Pass, Deosai, Skardu Road.
-    3. Any active landslides or travel advisories.
-
-    Output strict valid JSON inside a markdown block (e.g., \`\`\`json { ... } \`\`\`).
-    The JSON structure must be:
+    Retrieve the CURRENT, REAL-TIME weather and road conditions for Gilgit-Baltistan, Pakistan.
+    Districts to check: Skardu, Hunza, Gilgit, Astore, Ghizer, Ghanche, Kharmang, Nagar, Diamer.
+    
+    Use Google Search to find the latest data (today's weather).
+    
+    Return the data as a raw JSON object. Do not format with markdown code blocks (no \`\`\`json).
+    
+    Required JSON Structure:
     {
-      "lastUpdated": "YYYY-MM-DD HH:MM",
-      "generalAlerts": ["List of general major alerts"],
+      "lastUpdated": "Current Date & Time",
+      "generalAlerts": ["List of any major travel warnings for the region"],
       "districts": [
         {
           "name": "District Name",
-          "weather": { "temp": "25°C", "condition": "Sunny" },
-          "roadStatus": { "status": "OPEN", "details": "Road is clear" },
-          "advisory": "Specific advice"
+          "weather": { "temp": "Current Temperature (e.g., 15°C)", "condition": "Current Condition (e.g., Sunny, Snowing)" },
+          "roadStatus": { "status": "OPEN" | "CLOSED" | "CAUTION", "details": "Brief status details" },
+          "advisory": "Travel advisory for this district"
         }
       ]
     }
-    
-    Ensure roadStatus.status is exactly 'OPEN', 'CLOSED', or 'CAUTION'.
   `;
 
   try {
@@ -168,22 +164,16 @@ export const getLiveTravelUpdates = async (): Promise<{ data: LiveStatusResponse
       ?.map(c => c.web?.uri)
       .filter((uri): uri is string => !!uri) || [];
 
-    const text = response.text || "";
-    // Extract JSON block
-    const jsonMatch = text.match(/```json\s*([\s\S]*?)\s*```/) || text.match(/```\s*([\s\S]*?)\s*```/);
+    let text = response.text || "{}";
+    // Aggressively clean up markdown if present
+    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
     
-    if (jsonMatch && jsonMatch[1]) {
-      const data = JSON.parse(jsonMatch[1]) as LiveStatusResponse;
+    try {
+      const data = JSON.parse(text) as LiveStatusResponse;
       return { data, sources };
-    } else {
-       // Fallback if no code block found, try parsing raw text if it looks like JSON
-       try {
-         const data = JSON.parse(text) as LiveStatusResponse;
-         return { data, sources };
-       } catch (e) {
-         console.warn("Could not parse AI response as JSON", text);
-         return { data: null, sources };
-       }
+    } catch (e) {
+      console.warn("JSON Parse Failed, raw text:", text);
+      return { data: null, sources };
     }
   } catch (error) {
     console.error("Error fetching live updates:", error);

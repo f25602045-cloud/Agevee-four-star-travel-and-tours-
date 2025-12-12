@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DISTRICTS, LISTINGS, WEATHER_DATA, ROAD_STATUS } from '../services/mockData';
 import { getDistrictDetails } from '../services/geminiService';
 import { DistrictDetails, Listing } from '../types';
-import { MapPin, ArrowRight, Star, Mountain, Landmark, Hotel, Loader2, ArrowLeft, Info, Thermometer, AlertTriangle, Cloud, Navigation } from 'lucide-react';
+import { MapPin, ArrowRight, Star, Mountain, Landmark, Hotel, Loader2, ArrowLeft, Info, Thermometer, AlertTriangle, Cloud, Navigation, ExternalLink } from 'lucide-react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { BookingModal } from '../components/BookingModal';
 import { InteractiveMap } from '../components/InteractiveMap';
@@ -21,10 +21,15 @@ export const Explore: React.FC = () => {
       if (districtId) {
         const district = DISTRICTS.find(d => d.id === districtId);
         if (district) {
-          setLoading(true);
-          const details = await getDistrictDetails(district.name);
-          setAiDetails(details);
-          setLoading(false);
+          if (district.hardcodedDetails) {
+            setAiDetails(district.hardcodedDetails);
+            setLoading(false);
+          } else {
+            setLoading(true);
+            const details = await getDistrictDetails(district.name);
+            setAiDetails(details);
+            setLoading(false);
+          }
         }
       } else {
         setAiDetails(null);
@@ -192,6 +197,9 @@ export const Explore: React.FC = () => {
                               <p className="text-gray-400 text-sm leading-relaxed border-t border-gray-700 pt-4 mt-2">
                                 {place.description}
                               </p>
+                              <a href="#" className="inline-block mt-4 text-brand-primary border border-brand-primary px-4 py-2 rounded-sm text-xs font-bold uppercase tracking-widest hover:bg-brand-primary hover:text-brand-dark transition">
+                                More Details
+                              </a>
                             </div>
                           </div>
                         ))}
@@ -220,7 +228,10 @@ export const Explore: React.FC = () => {
                                   <Landmark size={150} />
                                 </div>
                                 <h3 className="text-3xl font-serif font-bold text-white mb-4 relative z-10 group-hover:text-brand-primary transition-colors">{place.name}</h3>
-                                <p className="text-gray-300 text-base leading-relaxed relative z-10 font-light">{place.description}</p>
+                                <p className="text-gray-300 text-base leading-relaxed relative z-10 font-light mb-4">{place.description}</p>
+                                <a href="#" className="relative z-10 inline-block text-brand-primary font-bold uppercase tracking-widest text-sm hover:underline">
+                                    More Details <ArrowRight size={14} className="inline ml-1" />
+                                </a>
                              </div>
                           </div>
                         ))}
@@ -286,15 +297,29 @@ export const Explore: React.FC = () => {
                                 </div>
                               </div>
                               <div className="flex justify-between items-end">
-                                <span className="text-xl text-brand-primary font-serif font-bold">
-                                  {Array(listing.priceLevel).fill('$').join('')}
-                                </span>
-                                <button 
-                                    onClick={() => setSelectedListing(listing)}
-                                    className="bg-brand-dark text-white border border-gray-600 px-6 py-2 text-sm hover:bg-brand-primary hover:text-brand-dark hover:border-brand-primary transition font-bold uppercase tracking-wider"
-                                >
-                                  {listing.type === 'HOTEL' ? 'Book Stay' : 'View Details'}
-                                </button>
+                                <div className="flex flex-col gap-1">
+                                    <span className="text-xl text-brand-primary font-serif font-bold">
+                                    {Array(listing.priceLevel).fill('$').join('')}
+                                    </span>
+                                </div>
+                                <div className="flex gap-2">
+                                    {listing.website && (
+                                        <a 
+                                        href={listing.website}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="bg-transparent border border-gray-600 text-gray-300 px-4 py-2 text-sm hover:bg-white hover:text-brand-dark transition font-bold uppercase tracking-wider flex items-center gap-2"
+                                        >
+                                        Website <ExternalLink size={14} />
+                                        </a>
+                                    )}
+                                    <button 
+                                        onClick={() => setSelectedListing(listing)}
+                                        className="bg-brand-dark text-white border border-gray-600 px-6 py-2 text-sm hover:bg-brand-primary hover:text-brand-dark hover:border-brand-primary transition font-bold uppercase tracking-wider"
+                                    >
+                                    {listing.type === 'HOTEL' ? 'Book Stay' : 'View Details'}
+                                    </button>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -310,7 +335,7 @@ export const Explore: React.FC = () => {
                     {aiDetails && aiDetails.hotels.length > 0 && (
                       <div className="mt-12 bg-brand-secondary/30 p-8 border border-gray-800 rounded-sm">
                         <h4 className="flex items-center gap-2 text-brand-primary font-bold uppercase tracking-widest text-sm mb-6">
-                          <Info size={16} /> Additional AI Recommendations
+                          <Info size={16} /> Additional Recommendations
                         </h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           {aiDetails.hotels.map((hotel, idx) => (
@@ -359,62 +384,4 @@ export const Explore: React.FC = () => {
         </div>
       </div>
     );
-  }
-
-  // List all districts (Default View)
-  return (
-    <div className="min-h-screen bg-brand-dark font-sans pt-20">
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="text-center mb-16 animate-fade-in-up">
-          <span className="text-brand-primary uppercase tracking-[0.3em] font-bold text-xs mb-4 block">The Regions of</span>
-          <h1 className="text-5xl md:text-7xl font-black text-white mb-6 font-serif">Gilgit-Baltistan</h1>
-          <div className="w-32 h-1 bg-gradient-to-r from-transparent via-brand-primary to-transparent mx-auto"></div>
-        </div>
-
-        {/* Interactive Map Overview Section */}
-        <div className="mb-20 bg-brand-secondary rounded-sm p-1 border border-brand-primary/20 shadow-2xl h-[500px]">
-           <InteractiveMap districts={DISTRICTS} className="w-full h-full rounded-sm" />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {DISTRICTS.map((district, idx) => (
-            <div key={district.id} className="group bg-brand-secondary rounded-sm overflow-hidden border border-gray-800 hover:border-brand-primary/50 transition duration-500 shadow-xl hover:shadow-brand-primary/20">
-              <div className="relative h-80 overflow-hidden">
-                <img 
-                  src={district.image} 
-                  alt={district.name} 
-                  className="w-full h-full object-cover transition duration-1000 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-brand-secondary opacity-90"></div>
-                
-                {/* Overlay Text */}
-                <div className="absolute bottom-6 left-6 right-6 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
-                  <h3 className="text-4xl font-serif font-bold text-white mb-2">{district.name}</h3>
-                  <div className="w-12 h-0.5 bg-brand-primary group-hover:w-full transition-all duration-700"></div>
-                </div>
-              </div>
-              <div className="p-8">
-                <p className="text-gray-400 mb-8 font-light leading-relaxed h-16 line-clamp-2">{district.description}</p>
-                <div className="flex justify-between items-center">
-                   <div className="flex -space-x-2">
-                     {district.attractions.slice(0,3).map((_, i) => (
-                       <div key={i} className="w-8 h-8 rounded-full bg-brand-dark border border-gray-600 flex items-center justify-center text-[8px] text-gray-500">
-                         <Mountain size={12} />
-                       </div>
-                     ))}
-                   </div>
-                   <Link 
-                    to={`/explore?id=${district.id}`} 
-                    className="text-brand-primary text-sm font-bold uppercase tracking-widest hover:text-white transition flex items-center gap-2 group-hover:gap-3 duration-300"
-                  >
-                    View Guide <ArrowRight size={14} />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
+  };
